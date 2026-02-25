@@ -20,14 +20,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (pilot) showHome();
 
-    // Keydown Listener (Instant One-Tap Enter)
+    // 🐾 FIX: Enter key for the Name Screen (resonates with puppy energy!)
+    const nameInp = document.getElementById('name-input');
+    if (nameInp) {
+        nameInp.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveName();
+            }
+        });
+    }
+
+    // 🐾 FIX: Enter key for Gameplay
     const ansInp = document.getElementById('answer-input');
-    ansInp.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault(); 
-            checkAnswer();
-        }
-    });
+    if (ansInp) {
+        ansInp.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); 
+                checkAnswer();
+            }
+        });
+    }
 
     // Operators
     document.querySelectorAll('.op-btn').forEach(btn => {
@@ -42,43 +55,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// 🐾 Animated, Kid-Friendly Voice Tuning
 function speak(text) {
-Arf arf! I love where we’re going with this, Pilot Avi! To make the voice feel truly animated and like a cartoon character, we can add a little "sparkle" to the logic.
-
-Standard voices can sometimes sound a bit flat, so we’ll update the speak function to randomly vary the pitch slightly each time. This makes the puppy sound excited when he barks and gentle when he’s helping!
-
-🦴 The "Animated Puppy" speak Function
-Replace your current function with this one. I’ve added a "Pitch Jiggle" to make it sound more like a real, expressive character:
-
-JavaScript
-function speak(text) {
-    // 🐾 Cancel any current speech so he doesn't talk over himself
-    window.speechSynthesis.cancel();
-
+    window.speechSynthesis.cancel(); // Stop talking to start the new bark immediately!
     const msg = new SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices();
 
-    // 🐾 Priority: Find a "Natural" or "Kid-friendly" sounding voice
+    // Look for soft, friendly voices like Google or Samantha
     const friendlyVoice = voices.find(v => 
         v.name.includes('Google US English') || 
         v.name.includes('Samantha') || 
         v.name.toLowerCase().includes('female')
     ) || voices[0];
 
-    if (friendlyVoice) {
-        msg.voice = friendlyVoice;
-    }
+    if (friendlyVoice) msg.voice = friendlyVoice;
 
-    // 🐾 ANIMATED TUNING
-    // We add a tiny bit of random pitch (1.3 to 1.5) so he sounds more "alive"
-    msg.pitch = 1.3 + (Math.random() * 0.2); 
-    msg.rate = 0.95;   // Just a hair faster than before for a "happy" vibe
+    // "Animated" character settings
+    msg.pitch = 1.3 + (Math.random() * 0.2); // Random pitch makes it sound alive!
+    msg.rate = 0.95; 
     msg.volume = 0.9; 
 
     window.speechSynthesis.speak(msg);
 }
 
-// 🐾 This ensures voices are loaded before the first bark
+// Ensure voices are ready
 window.speechSynthesis.onvoiceschanged = () => {
     window.speechSynthesis.getVoices();
 };
@@ -88,7 +88,7 @@ function saveName() {
     if (val.trim()) {
         pilot = val;
         localStorage.setItem('pilot', pilot);
-        speak(`Woof! Let's go Pilot ${pilot}!`);
+        speak(`Wag wag! Let's go, Best Friend ${pilot}!`);
         showHome();
     }
 }
@@ -97,7 +97,8 @@ function showHome() {
     document.getElementById('name-screen').classList.add('hidden');
     document.getElementById('game-screen').classList.add('hidden');
     document.getElementById('home-screen').classList.remove('hidden');
-    document.getElementById('welcome-msg').innerText = `Welcome, Pilot ${pilot}!`;
+    // 🐾 Updated to "Best Friend" theme
+    document.getElementById('welcome-msg').innerText = `Welcome, Best Friend ${pilot}!`;
     document.getElementById('hi-score').innerText = localStorage.getItem('hiScore') || 0;
 }
 
@@ -150,7 +151,7 @@ function genProblem() {
     const ansInp = document.getElementById('answer-input');
     ansInp.value = "";
     ansInp.disabled = false;
-    ansInp.focus();
+    ansInp.focus(); // 🐾 No overlay bubble, so focus works perfectly!
     startTimer();
 }
 
@@ -170,7 +171,7 @@ function startTimer() {
 
 function checkAnswer() {
     const val = parseInt(document.getElementById('answer-input').value);
-    handleResult(val === currentAns, val === currentAns ? "Bark! Correct!" : "Oops! Wrong!");
+    handleResult(val === currentAns, val === currentAns ? "Bark! Correct!" : "Oops! Try again!");
 }
 
 function handleResult(isCorrect, message) {
@@ -184,22 +185,26 @@ function handleResult(isCorrect, message) {
         document.getElementById('correct-count').innerText = correctQuestions;
         if (streak >= 3) {
             new Audio('https://www.soundjay.com/misc/sounds/magic-chime-01.mp3').play();
-            petSay(`STREAK! ${streak} in a row!`);
+            petSay(`SUPER STREAK! ${streak} in a row!`);
+            speak("You're a superstar!");
         } else {
             petSay(message);
+            speak("Bark! You got it!");
         }
     } else {
         wrongQuestions++;
         streak = 0;
         document.getElementById('wrong-count').innerText = wrongQuestions;
         petSay(message);
+        speak("Aww, don't worry! Try another!");
     }
     
     document.getElementById('points').innerText = score;
 
     if (currentQuestionNum >= totalQuestionsAllowed) {
         setTimeout(() => {
-            alert(`Mission Complete, Pilot ${pilot}!\n✅ Correct: ${correctQuestions}\n❌ Wrong/Timeout: ${wrongQuestions}`);
+            // 🐾 Alert updated to Best Friend
+            alert(`Mission Complete, Best Friend ${pilot}!\n✅ Correct: ${correctQuestions}\n❌ Wrong/Timeout: ${wrongQuestions}`);
             showHome();
         }, 800);
     } else {
@@ -209,24 +214,21 @@ function handleResult(isCorrect, message) {
     }
 }
 
+// 🐾 Updated to use the status label (non-blocking)
 function petSay(msg) {
     const label = document.getElementById('status-label');
+    if (!label) return;
     label.innerText = msg;
     
-    // 🐾 Change color based on the message
     if (msg.includes("Correct") || msg.includes("STREAK")) {
-        label.style.color = "#26de81"; // Success Green
+        label.style.color = "#26de81";
     } else {
-        label.style.color = "#FF5E57"; // Alert Red
+        label.style.color = "#FF5E57";
     }
 
-    // Clear the label after a short delay so the deck is clean for the next question
     setTimeout(() => {
         if (label.innerText === msg) {
             label.innerHTML = "&nbsp;"; 
         }
     }, 1500);
-
 }
-
-
