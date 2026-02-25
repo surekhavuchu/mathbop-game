@@ -201,32 +201,29 @@ function handleResult(isCorrect, message) {
     
     document.getElementById('points').innerText = score;
 
-   if (currentQuestionNum >= totalQuestionsAllowed) {
-        // 🐾 Calculate performance percentage
+    // 1. Move to the next question number first
+    currentQuestionNum++;
+    
+    if (currentQuestionNum > totalQuestionsAllowed) {
+        // 🐾 MISSION COMPLETE LOGIC
         const performance = correctQuestions / totalQuestionsAllowed;
-        let feedback = "";
-
-        if (performance === 1) {
-            feedback = "Great job! You are a math superstar!";
-        } else if (performance >= 0.8) {
-            feedback = "You did amazing!";
-        } else if (performance >= 0.5) {
-            feedback = "You are almost there. Good job!";
-        } else {
-            feedback = "You worked hard! Let's practice some more together!";
-        }
-
-        // 🐾 Speak the custom feedback immediately
+        let feedback = (performance === 1) ? "Great job! You are a math superstar!" : 
+                       (performance >= 0.8) ? "You did amazing!" :
+                       (performance >= 0.5) ? "You are almost there. Good job!" :
+                       "You worked hard! Let's practice some more together!";
+    
         speak(feedback);
-
+    
         setTimeout(() => {
-            // 🐾 Friendly Alert matching the voice
             alert(`Mission Complete, Best Friend ${pilot}!\n✅ Correct: ${correctQuestions}\n❌ Wrong/Timeout: ${wrongQuestions}\n\n${feedback}`);
             showHome();
-        }, 1500); // 🐾 Increased delay so the puppy can finish his sentence!
+        }, 1500);
     } else {
-        currentQuestionNum++;
+        // 🐾 NEXT QUESTION LOGIC
+        // Update the UI to show the user they are on the next number
         document.getElementById('q-current').innerText = currentQuestionNum;
+        
+        // Brief delay before the next problem appears
         setTimeout(genProblem, 1000);
     }
 }
@@ -249,6 +246,7 @@ function petSay(msg) {
         }
     }, 1500);
 }
+
 
 
 
