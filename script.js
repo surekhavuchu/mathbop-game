@@ -44,9 +44,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function speak(text) {
     const msg = new SpeechSynthesisUtterance(text);
-    msg.rate = 1.2;
+    
+    // 🐾 Get all available voices
+    const voices = window.speechSynthesis.getVoices();
+    
+    // 🐾 Try to find a soft, friendly-sounding voice
+    // We look for "Google" voices or "female" in the name as they are often gentler
+    const friendlyVoice = voices.find(v => v.name.includes('Google US English') || v.name.toLowerCase().includes('female')) || voices[0];
+    
+    if (friendlyVoice) {
+        msg.voice = friendlyVoice;
+    }
+
+    // 🐾 Tuning for a "Kid-Friendly" sound
+    msg.pitch = 1.4;  // Higher pitch sounds more like a friendly character
+    msg.rate = 0.9;   // Slightly slower is easier for kids to follow
+    msg.volume = 0.8; // Not too loud!
+
     window.speechSynthesis.speak(msg);
 }
+
+// 🐾 This ensures voices are loaded before the first bark
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
 
 function saveName() {
     const val = document.getElementById('name-input').value;
@@ -191,4 +212,5 @@ function petSay(msg) {
             label.innerHTML = "&nbsp;"; 
         }
     }, 1500);
+
 }
