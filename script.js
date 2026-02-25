@@ -43,23 +43,37 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function speak(text) {
+Arf arf! I love where we’re going with this, Pilot Avi! To make the voice feel truly animated and like a cartoon character, we can add a little "sparkle" to the logic.
+
+Standard voices can sometimes sound a bit flat, so we’ll update the speak function to randomly vary the pitch slightly each time. This makes the puppy sound excited when he barks and gentle when he’s helping!
+
+🦴 The "Animated Puppy" speak Function
+Replace your current function with this one. I’ve added a "Pitch Jiggle" to make it sound more like a real, expressive character:
+
+JavaScript
+function speak(text) {
+    // 🐾 Cancel any current speech so he doesn't talk over himself
+    window.speechSynthesis.cancel();
+
     const msg = new SpeechSynthesisUtterance(text);
-    
-    // 🐾 Get all available voices
     const voices = window.speechSynthesis.getVoices();
-    
-    // 🐾 Try to find a soft, friendly-sounding voice
-    // We look for "Google" voices or "female" in the name as they are often gentler
-    const friendlyVoice = voices.find(v => v.name.includes('Google US English') || v.name.toLowerCase().includes('female')) || voices[0];
-    
+
+    // 🐾 Priority: Find a "Natural" or "Kid-friendly" sounding voice
+    const friendlyVoice = voices.find(v => 
+        v.name.includes('Google US English') || 
+        v.name.includes('Samantha') || 
+        v.name.toLowerCase().includes('female')
+    ) || voices[0];
+
     if (friendlyVoice) {
         msg.voice = friendlyVoice;
     }
 
-    // 🐾 Tuning for a "Kid-Friendly" sound
-    msg.pitch = 1.4;  // Higher pitch sounds more like a friendly character
-    msg.rate = 0.9;   // Slightly slower is easier for kids to follow
-    msg.volume = 0.8; // Not too loud!
+    // 🐾 ANIMATED TUNING
+    // We add a tiny bit of random pitch (1.3 to 1.5) so he sounds more "alive"
+    msg.pitch = 1.3 + (Math.random() * 0.2); 
+    msg.rate = 0.95;   // Just a hair faster than before for a "happy" vibe
+    msg.volume = 0.9; 
 
     window.speechSynthesis.speak(msg);
 }
@@ -214,3 +228,4 @@ function petSay(msg) {
     }, 1500);
 
 }
+
