@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathBop! 🚀</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div id="name-screen" class="card">
+            <span class="emoji">🐶</span>
+            <h1>MathBop!</h1>
+            <p>Hi! What is your name, Pilot?</p>
+            <input type="text" id="name-input" placeholder="Your Name..." autocomplete="off">
+            <button onclick="saveName()">GET MY WINGS!</button>
+        </div>
+
+        <div id="home-screen" class="card hidden">
+            <h1 id="welcome-msg">Welcome, Pilot!</h1>
+            <p>High Score: <span id="hi-score">0</span></p>
+            
+            <div class="settings">
+                <div class="setting-row">
+                    <span>⏱️ Speed:</span>
+                    <input type="range" id="speed-slider" min="1" max="10" value="5">
+                    <span id="speed-val">5</span>s
+                </div>
+                <div class="setting-row">
+                    <span>🚀 Questions:</span>
+                    <input type="range" id="q-limit-slider" min="5" max="50" step="5" value="10">
+                    <span id="q-limit-val">10</span>
+                </div>
+            </div>
+
+            <div class="ops-select">
+                <button class="op-btn active" data-op="+">+</button>
+                <button class="op-btn" data-op="-">-</button>
+                <button class="op-btn" data-op="x">×</button>
+                <button class="op-btn" data-op="/">÷</button>
+            </div>
+
+            <button onclick="startGame()" class="start-btn">START MISSION!</button>
+        </div>
+
+      <div id="game-screen" class="card hidden">
+    <div id="timer-container"><div id="timer-bar"></div></div>
+
+    <div class="stats-bar">
+        <span>✅ <span id="correct-count">0</span></span>
+        <span>❌ <span id="wrong-count">0</span></span>
+        <span>🚀 <span id="q-current">1</span>/<span id="q-total">10</span></span>
+    </div>
+
+    <div class="problem">
+        <span id="n1">0</span>
+        <span id="op-sign">+</span>
+        <span id="n2">0</span>
+        <span>=</span>
+    </div>
+
+    <input type="number" id="answer-input" placeholder="Type here!">
+    <button id="submit-btn" onclick="checkAnswer()">SUBMIT ANSWER</button>
+    
+    <div id="status-label" class="status-text">&nbsp;</div> 
+    
+    <p>Current Score: <span id="points">0</span></p>
+</div>
+
+    <audio id="game-music" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
