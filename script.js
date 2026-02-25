@@ -97,8 +97,10 @@ function showHome() {
     document.getElementById('game-screen').classList.add('hidden');
     document.getElementById('home-screen').classList.remove('hidden');
     // 🐾 Updated to "Best Friend" theme
-    document.getElementById('welcome-msg').innerText = `Welcome, Best Friend ${pilot}!`;
+    document.getElementById('welcome-msg').innerText = `Welcome, ${pilot}!`;
     document.getElementById('hi-score').innerText = localStorage.getItem('hiScore') || 0;
+
+    speak(`Welcome, ${pilot}!`);
 }
 
 function startGame() {
@@ -203,13 +205,13 @@ function handleResult(isCorrect, message) {
         let feedback = "";
 
         if (performance === 1) {
-            feedback = "Woof! A perfect score! You are a math superstar, Best Friend!";
+            feedback = "Great job! You are a math superstar!";
         } else if (performance >= 0.8) {
-            feedback = "Wag wag! You did amazing! Almost every single one right!";
+            feedback = "You did amazing!";
         } else if (performance >= 0.5) {
-            feedback = "Great job! You are getting so much stronger at math!";
+            feedback = "You are almost there. Good job!";
         } else {
-            feedback = "You worked hard! Let's practice some more together, Best Friend!";
+            feedback = "You worked hard! Let's practice some more together!";
         }
 
         // 🐾 Speak the custom feedback immediately
@@ -245,5 +247,6 @@ function petSay(msg) {
         }
     }, 1500);
 }
+
 
 
