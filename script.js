@@ -71,7 +71,6 @@ function speak(text) {
     if (friendlyVoice) msg.voice = friendlyVoice;
 
     // "Animated" character settings
-    msg.pitch = 1.3 + (Math.random() * 0.2); // Random pitch makes it sound alive!
     msg.rate = 0.95; 
     msg.volume = 0.9; 
 
@@ -232,3 +231,4 @@ function petSay(msg) {
         }
     }, 1500);
 }
+
