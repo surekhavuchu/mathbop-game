@@ -1,1 +1,1 @@
-# mathbop-name
+# mathbop-game
