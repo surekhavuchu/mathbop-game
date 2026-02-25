@@ -18,7 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('speed-slider').oninput = (e) => document.getElementById('speed-val').innerText = e.target.value;
     document.getElementById('q-limit-slider').oninput = (e) => document.getElementById('q-limit-val').innerText = e.target.value;
 
-    if (pilot) showHome();
+    if (pilot) 
+    {
+        showHome();
+        speak(`Welcome, ${pilot}!`);
+    }
 
     // 🐾 FIX: Enter key for the Name Screen (resonates with puppy energy!)
     const nameInp = document.getElementById('name-input');
@@ -99,8 +103,6 @@ function showHome() {
     // 🐾 Updated to "Best Friend" theme
     document.getElementById('welcome-msg').innerText = `Welcome, ${pilot}!`;
     document.getElementById('hi-score').innerText = localStorage.getItem('hiScore') || 0;
-
-    speak(`Welcome, ${pilot}!`);
 }
 
 function startGame() {
