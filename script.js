@@ -185,27 +185,41 @@ function handleResult(isCorrect, message) {
         if (streak >= 3) {
             new Audio('https://www.soundjay.com/misc/sounds/magic-chime-01.mp3').play();
             petSay(`SUPER STREAK! ${streak} in a row!`);
-            speak("You're a superstar!");
         } else {
             petSay(message);
-            speak("Bark! You got it!");
         }
     } else {
         wrongQuestions++;
         streak = 0;
         document.getElementById('wrong-count').innerText = wrongQuestions;
         petSay(message);
-        speak("Aww, don't worry! Try another!");
     }
     
     document.getElementById('points').innerText = score;
 
-    if (currentQuestionNum >= totalQuestionsAllowed) {
+   if (currentQuestionNum >= totalQuestionsAllowed) {
+        // 🐾 Calculate performance percentage
+        const performance = correctQuestions / totalQuestionsAllowed;
+        let feedback = "";
+
+        if (performance === 1) {
+            feedback = "Woof! A perfect score! You are a math superstar, Best Friend!";
+        } else if (performance >= 0.8) {
+            feedback = "Wag wag! You did amazing! Almost every single one right!";
+        } else if (performance >= 0.5) {
+            feedback = "Great job! You are getting so much stronger at math!";
+        } else {
+            feedback = "You worked hard! Let's practice some more together, Best Friend!";
+        }
+
+        // 🐾 Speak the custom feedback immediately
+        speak(feedback);
+
         setTimeout(() => {
-            // 🐾 Alert updated to Best Friend
-            alert(`Mission Complete, Best Friend ${pilot}!\n✅ Correct: ${correctQuestions}\n❌ Wrong/Timeout: ${wrongQuestions}`);
+            // 🐾 Friendly Alert matching the voice
+            alert(`Mission Complete, Best Friend ${pilot}!\n✅ Correct: ${correctQuestions}\n❌ Wrong/Timeout: ${wrongQuestions}\n\n${feedback}`);
             showHome();
-        }, 800);
+        }, 1500); // 🐾 Increased delay so the puppy can finish his sentence!
     } else {
         currentQuestionNum++;
         document.getElementById('q-current').innerText = currentQuestionNum;
@@ -231,4 +245,5 @@ function petSay(msg) {
         }
     }, 1500);
 }
+
 
