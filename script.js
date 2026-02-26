@@ -38,6 +38,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🐾 FIX: Enter key for Gameplay
     const ansInp = document.getElementById('answer-input');
     if (ansInp) {
+        ansInp.addEventListener('input', (e) => {
+            const userVal = e.target.value;
+            const targetAnsStr = currentAns.toString();
+    
+            // 1. Check if the length of what they typed matches the answer length
+            // (e.g., if answer is 10, wait for 2 digits. If answer is 5, submit on 1 digit)
+            if (userVal.length >= targetAnsStr.length) {
+                checkAnswer();
+            }
+        });
+    
+        // Keep Enter key as a backup just in case
         ansInp.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault(); 
@@ -45,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     // Operators
     document.querySelectorAll('.op-btn').forEach(btn => {
         btn.onclick = () => {
@@ -246,6 +257,7 @@ function petSay(msg) {
         }
     }, 1500);
 }
+
 
 
 
