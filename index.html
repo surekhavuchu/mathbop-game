@@ -61,10 +61,8 @@
         <span>=</span>
     </div>
 
-    <input type="number" id="answer-input" placeholder="Type here!">
-    <button id="submit-btn" onclick="checkAnswer()">SUBMIT ANSWER</button>
-    
-    <div id="status-label" class="status-text">&nbsp;</div> 
+   <input type="number" id="answer-input" pattern="\d*" inputmode="numeric" placeholder="?">
+   <div id="status-label" class="status-text">&nbsp;</div>
     
     <p>Current Score: <span id="points">0</span></p>
 </div>
@@ -72,4 +70,5 @@
     <audio id="game-music" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
     <script src="script.js"></script>
 </body>
+
 </html>
