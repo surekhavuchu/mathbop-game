@@ -210,7 +210,7 @@ function handleResult(isCorrect, message) {
     
         speak(feedback);
         setTimeout(() => {
-            alert(`Mission Complete, Best Friend ${pilot}!\n✅ Correct: ${correctQuestions}\n❌ Wrong/Timeout: ${wrongQuestions}\n\n${feedback}`);
+            alert(feedback +` ${pilot}!\n✅ Correct: ${correctQuestions}\n❌ Wrong/Timeout: ${wrongQuestions}\n\n${feedback}`);
             showHome();
         }, 1500);
     } else {
@@ -231,3 +231,4 @@ function petSay(msg) {
         }
     }, 1500);
 }
+
