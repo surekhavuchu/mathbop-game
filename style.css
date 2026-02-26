@@ -76,9 +76,37 @@ button {
 
 #answer-input {
     display: block;
-    margin: 15px auto;
-    position: relative;
-    z-index: 1; /* Keeps input on top and clickable */
+    margin: 20px auto;
+    font-size: 80px; /* Huge for little eyes */
+    width: 160px;
+    height: 120px;
+    text-align: center;
+    border: 5px solid #4b7cf3;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    color: #2d3436;
+    font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+}
+
+/* Removes the tiny up/down arrows that confuse kids */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Visual "Shake" animation for wrong answers */
+.shake {
+    animation: shake 0.4s;
+    border-color: #FF5E57 !important;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
 }
 
 #bubble {
@@ -120,3 +148,4 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
