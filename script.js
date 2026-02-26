@@ -35,28 +35,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 🐾 FIX: Enter key for Gameplay
-    const ansInp = document.getElementById('answer-input');
-    if (ansInp) {
-        ansInp.addEventListener('input', (e) => {
-            const userVal = e.target.value;
-            const targetAnsStr = currentAns.toString();
-    
-            // 1. Check if the length of what they typed matches the answer length
-            // (e.g., if answer is 10, wait for 2 digits. If answer is 5, submit on 1 digit)
-            if (userVal.length >= targetAnsStr.length) {
-                checkAnswer();
-            }
-        });
-    
-        // Keep Enter key as a backup just in case
-        ansInp.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault(); 
-                checkAnswer();
-            }
-        });
+    // Inside your DOMContentLoaded listener:
+const ansInp = document.getElementById('answer-input');
+
+ansInp.addEventListener('input', (e) => {
+    const userVal = e.target.value;
+    if (userVal === "") return; // Don't trigger on empty
+
+    const targetAnsStr = currentAns.toString();
+
+    // AUTO-SUBMIT LOGIC:
+    // If the answer is '5', submit on 1st digit.
+    // If the answer is '10', wait for the 2nd digit.
+    if (userVal.length >= targetAnsStr.length) {
+        checkAnswer();
     }
+});
     // Operators
     document.querySelectorAll('.op-btn').forEach(btn => {
         btn.onclick = () => {
@@ -188,26 +182,27 @@ function checkAnswer() {
     handleResult(val === currentAns, val === currentAns ? "Bark! Correct!" : "Oops! Try again!");
 }
 
+// Update handleResult to include the "Shake" effect for kindergartners
 function handleResult(isCorrect, message) {
     clearInterval(gameTimer);
-    document.getElementById('answer-input').disabled = true;
+    const ansInp = document.getElementById('answer-input');
+    ansInp.disabled = true;
 
     if (isCorrect) {
         score += 10;
         correctQuestions++;
         streak++;
         document.getElementById('correct-count').innerText = correctQuestions;
-        if (streak >= 3) {
-            new Audio('https://www.soundjay.com/misc/sounds/magic-chime-01.mp3').play();
-            petSay(`SUPER STREAK! ${streak} in a row!`);
-        } else {
-            petSay(message);
-        }
+        petSay(streak >= 3 ? `SUPER STREAK! ${streak}!` : "Bark! Correct!");
     } else {
+        // Trigger the visual shake
+        ansInp.classList.add('shake');
+        setTimeout(() => ansInp.classList.remove('shake'), 400);
+        
         wrongQuestions++;
         streak = 0;
         document.getElementById('wrong-count').innerText = wrongQuestions;
-        petSay(message);
+        petSay("Oops! Try again!");
     }
     
     document.getElementById('points').innerText = score;
@@ -257,6 +252,7 @@ function petSay(msg) {
         }
     }, 1500);
 }
+
 
 
 
