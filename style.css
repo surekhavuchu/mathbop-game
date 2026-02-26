@@ -98,4 +98,25 @@ button {
     pointer-events: none; /* Let clicks pass through to the box below */
 }
 
+
 .hidden { display: none; }
+
+#submit-btn {
+    display: none; /* Hide the button to keep them focused on the numbers */
+}
+
+#answer-input {
+    font-size: 3rem;   /* Make it huge! */
+    text-align: center;
+    width: 150px;
+    border-radius: 15px;
+    border: 4px solid #4b7cf3;
+    padding: 10px;
+}
+
+/* Remove the "spinners" (up/down arrows) from the number input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
