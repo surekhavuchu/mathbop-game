@@ -14,17 +14,16 @@ let currentQuestionNum = 1;
 let streak = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Sliders
+    // Sliders setup
     document.getElementById('speed-slider').oninput = (e) => document.getElementById('speed-val').innerText = e.target.value;
     document.getElementById('q-limit-slider').oninput = (e) => document.getElementById('q-limit-val').innerText = e.target.value;
 
-    if (pilot) 
-    {
+    if (pilot) {
         showHome();
         speak(`Welcome, ${pilot}!`);
     }
 
-    // 🐾 FIX: Enter key for the Name Screen (resonates with puppy energy!)
+    // Name Screen Enter Key
     const nameInp = document.getElementById('name-input');
     if (nameInp) {
         nameInp.addEventListener('keydown', (e) => {
@@ -35,23 +34,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Inside your DOMContentLoaded listener:
-const ansInp = document.getElementById('answer-input');
+    // 🐾 INSTANT VALIDATION (No Submit Button Needed)
+    const ansInp = document.getElementById('answer-input');
+    if (ansInp) {
+        ansInp.addEventListener('input', (e) => {
+            const userVal = e.target.value;
+            if (userVal === "") return;
 
-ansInp.addEventListener('input', (e) => {
-    const userVal = e.target.value;
-    if (userVal === "") return; // Don't trigger on empty
+            const targetAnsStr = currentAns.toString();
 
-    const targetAnsStr = currentAns.toString();
-
-    // AUTO-SUBMIT LOGIC:
-    // If the answer is '5', submit on 1st digit.
-    // If the answer is '10', wait for the 2nd digit.
-    if (userVal.length >= targetAnsStr.length) {
-        checkAnswer();
+            // Auto-submit when the length matches the answer
+            if (userVal.length >= targetAnsStr.length) {
+                checkAnswer();
+            }
+        });
     }
-});
-    // Operators
+
+    // Operators toggle logic
     document.querySelectorAll('.op-btn').forEach(btn => {
         btn.onclick = () => {
             btn.classList.toggle('active');
@@ -64,13 +63,10 @@ ansInp.addEventListener('input', (e) => {
     });
 });
 
-// 🐾 Animated, Kid-Friendly Voice Tuning
 function speak(text) {
-    window.speechSynthesis.cancel(); // Stop talking to start the new bark immediately!
+    window.speechSynthesis.cancel();
     const msg = new SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices();
-
-    // Look for soft, friendly voices like Google or Samantha
     const friendlyVoice = voices.find(v => 
         v.name.includes('Google US English') || 
         v.name.includes('Samantha') || 
@@ -78,18 +74,10 @@ function speak(text) {
     ) || voices[0];
 
     if (friendlyVoice) msg.voice = friendlyVoice;
-
-    // "Animated" character settings
     msg.rate = 0.95; 
     msg.volume = 0.9; 
-
     window.speechSynthesis.speak(msg);
 }
-
-// Ensure voices are ready
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-};
 
 function saveName() {
     const val = document.getElementById('name-input').value;
@@ -105,7 +93,6 @@ function showHome() {
     document.getElementById('name-screen').classList.add('hidden');
     document.getElementById('game-screen').classList.add('hidden');
     document.getElementById('home-screen').classList.remove('hidden');
-    // 🐾 Updated to "Best Friend" theme
     document.getElementById('welcome-msg').innerText = `Welcome, ${pilot}!`;
     document.getElementById('hi-score').innerText = localStorage.getItem('hiScore') || 0;
 }
@@ -155,11 +142,17 @@ function genProblem() {
         document.getElementById('n2').innerText = n2;
     }
 
-    document.getElementById('op-sign').innerText = op === 'x' ? '×' : op;
+    document.getElementById('op-sign').innerText = op === 'x' ? '×' : (op === '/' ? '÷' : op);
+    
     const ansInp = document.getElementById('answer-input');
     ansInp.value = "";
-    ansInp.disabled = false;
-    ansInp.focus(); // 🐾 No overlay bubble, so focus works perfectly!
+    ansInp.readOnly = false; // Unlock instead of enabling
+    
+    // Focus with a tiny timeout to keep the mobile keyboard up
+    setTimeout(() => {
+        ansInp.focus();
+    }, 10);
+
     startTimer();
 }
 
@@ -182,11 +175,12 @@ function checkAnswer() {
     handleResult(val === currentAns, val === currentAns ? "Bark! Correct!" : "Oops! Try again!");
 }
 
-// Update handleResult to include the "Shake" effect for kindergartners
 function handleResult(isCorrect, message) {
     clearInterval(gameTimer);
     const ansInp = document.getElementById('answer-input');
-    ansInp.disabled = true;
+    
+    // 🐾 Set to readOnly to keep keyboard active but prevent typing during feedback
+    ansInp.readOnly = true; 
 
     if (isCorrect) {
         score += 10;
@@ -195,23 +189,19 @@ function handleResult(isCorrect, message) {
         document.getElementById('correct-count').innerText = correctQuestions;
         petSay(streak >= 3 ? `SUPER STREAK! ${streak}!` : "Bark! Correct!");
     } else {
-        // Trigger the visual shake
         ansInp.classList.add('shake');
         setTimeout(() => ansInp.classList.remove('shake'), 400);
         
         wrongQuestions++;
         streak = 0;
         document.getElementById('wrong-count').innerText = wrongQuestions;
-        petSay("Oops! Try again!");
+        petSay(message);
     }
     
     document.getElementById('points').innerText = score;
-
-    // 1. Move to the next question number first
     currentQuestionNum++;
     
     if (currentQuestionNum > totalQuestionsAllowed) {
-        // 🐾 MISSION COMPLETE LOGIC
         const performance = correctQuestions / totalQuestionsAllowed;
         let feedback = (performance === 1) ? "Great job! You are a math superstar!" : 
                        (performance >= 0.8) ? "You did amazing!" :
@@ -219,32 +209,21 @@ function handleResult(isCorrect, message) {
                        "You worked hard! Let's practice some more together!";
     
         speak(feedback);
-    
         setTimeout(() => {
             alert(`Mission Complete, Best Friend ${pilot}!\n✅ Correct: ${correctQuestions}\n❌ Wrong/Timeout: ${wrongQuestions}\n\n${feedback}`);
             showHome();
         }, 1500);
     } else {
-        // 🐾 NEXT QUESTION LOGIC
-        // Update the UI to show the user they are on the next number
         document.getElementById('q-current').innerText = currentQuestionNum;
-        
-        // Brief delay before the next problem appears
-        setTimeout(genProblem, 1000);
+        setTimeout(genProblem, 800); // Quick transition for "Speed" math
     }
 }
 
-// 🐾 Updated to use the status label (non-blocking)
 function petSay(msg) {
     const label = document.getElementById('status-label');
     if (!label) return;
     label.innerText = msg;
-    
-    if (msg.includes("Correct") || msg.includes("STREAK")) {
-        label.style.color = "#26de81";
-    } else {
-        label.style.color = "#FF5E57";
-    }
+    label.style.color = (msg.includes("Correct") || msg.includes("STREAK")) ? "#26de81" : "#FF5E57";
 
     setTimeout(() => {
         if (label.innerText === msg) {
@@ -252,9 +231,3 @@ function petSay(msg) {
         }
     }, 1500);
 }
-
-
-
-
-
-
