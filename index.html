@@ -20,18 +20,24 @@
 
         <div id="home-screen" class="card hidden">
             <h1 id="welcome-msg">Welcome, Pilot!</h1>
-            <p>High Score: <span id="hi-score">0</span></p>
+            <div class="stats-row">
+                <span>🏆 High Score: <span id="hi-score">0</span></span>
+                <span>💰 Coins: <span id="total-coins">0</span></span>
+            </div>
             
             <div class="settings">
                 <div class="setting-row">
-                    <span>⏱️ Speed:</span>
-                    <input type="range" id="speed-slider" min="5" max="50" value="10">
-                    <span id="speed-val">10 s</span>
+                    <span>🌟 Level:</span>
+                    <select id="difficulty-select">
+                        <option value="easy">Easy (1-10)</option>
+                        <option value="medium">Medium (1-20)</option>
+                        <option value="hard">Hard (Double Digits!)</option>
+                    </select>
                 </div>
                 <div class="setting-row">
-                    <span>🚀 Questions:</span>
-                    <input type="range" id="q-limit-slider" min="5" max="50" step="5" value="10">
-                    <span id="q-limit-val">10</span>
+                    <span>⏱️ Speed:</span>
+                    <input type="range" id="speed-slider" min="5" max="40" value="15">
+                    <span id="speed-val">15 s</span>
                 </div>
             </div>
 
@@ -42,35 +48,32 @@
                 <button class="op-btn" data-op="/">÷</button>
             </div>
 
-            <button onclick="startGame()" class="start-btn">START MISSION!</button>
+            <button onclick="startGame()" class="start-btn">START MISSION! 🚀</button>
         </div>
 
-      <div id="game-screen" class="card hidden">
-    <div id="timer-container"><div id="timer-bar"></div></div>
+        <div id="game-screen" class="card hidden">
+            <div id="timer-container"><div id="timer-bar"></div></div>
 
-    <div class="stats-bar">
-        <span>✅ <span id="correct-count">0</span></span>
-        <span>❌ <span id="wrong-count">0</span></span>
-        <span>🚀 <span id="q-current">1</span>/<span id="q-total">10</span></span>
+            <div class="stats-bar">
+                <span>💰 <span id="session-coins">0</span></span>
+                <span>🚀 <span id="q-current">1</span>/<span id="q-total">10</span></span>
+                <span>🔥 <span id="streak-count">0</span></span>
+            </div>
+
+            <div class="problem">
+                <span id="n1">0</span>
+                <span id="op-sign">+</span>
+                <span id="n2">0</span>
+                <span>=</span>
+            </div>
+
+            <input type="number" id="answer-input" pattern="\d*" inputmode="numeric">
+            <div id="status-label" class="status-text">&nbsp;</div>
+            
+            <p>Score: <span id="points">0</span></p>
+        </div>
     </div>
 
-    <div class="problem">
-        <span id="n1">0</span>
-        <span id="op-sign">+</span>
-        <span id="n2">0</span>
-        <span>=</span>
-    </div>
-
-   <input type="number" id="answer-input" pattern="\d*" inputmode="numeric" placeholder="">
-   <div id="status-label" class="status-text">&nbsp;</div>
-    
-    <p>Current Score: <span id="points">0</span></p>
-</div>
-
-    <audio id="game-music" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
     <script src="script.js"></script>
 </body>
-
 </html>
-
-
