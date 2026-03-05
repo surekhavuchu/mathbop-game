@@ -304,3 +304,15 @@ function endGame() {
     }, 500);
 }
 
+function goToHome() {
+    // Stop the timer so it doesn't keep running in the background
+    clearInterval(gameTimer); 
+    
+    // Clear the answer input so it's fresh for next time
+    document.getElementById('answer-input').value = "";
+    
+    // Use your existing function to switch screens
+    showHome();
+}
+
+
