@@ -109,5 +109,31 @@ input[type="number"] {
     75% { transform: translateX(10px); }
 }
 
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    border-top: 2px dashed #eee;
+    padding-top: 15px;
+}
+
+.control-btn.mini {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    background: #f0f0f0;
+    color: #555;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s;
+}
+
+.control-btn.mini:hover {
+    transform: scale(1.05);
+    background: #e0e0e0;
+}
+
 .hidden { display: none; }
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
