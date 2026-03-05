@@ -77,16 +77,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- Speech Engine ---
 function speak(text) {
-    window.speechSynthesis.cancel(); // Stop current speech
+    // 1. Cancel any ongoing speech to prevent overlapping
+    window.speechSynthesis.cancel(); 
+
     const msg = new SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices();
-    
-    // Attempt to find a warm, high-quality voice
-    msg.voice = voices.find(v => v.name.includes('Google US English') || v.name.includes('Samantha')) || voices[0];
-    msg.pitch = 1.25; // Energetic and kid-friendly
-    msg.rate = 0.95;  // Slightly slower for clear understanding
+
+    // 2. Define our "Premium" voice preferences (Natural sounding)
+    // We look for 'Google' (Chrome's natural voices) or 'Samantha' (High quality on Safari/Mac)
+    const preferredVoices = [
+        "Google US English", 
+        "Microsoft Aria Online (Natural)", 
+        "Samantha", 
+        "en-US-Neural"
+    ];
+
+    let selectedVoice = null;
+
+    // 3. Loop through preferences to find the first match
+    for (let name of preferredVoices) {
+        selectedVoice = voices.find(v => v.name.includes(name));
+        if (selectedVoice) break;
+    }
+
+    // 4. Apply voice settings
+    msg.voice = selectedVoice || voices[0];
+    msg.pitch = 1.2;  // Slightly higher for a friendly, youthful vibe
+    msg.rate = 0.9;   // Just a hair slower for clarity
+    msg.volume = 1;
+
     window.speechSynthesis.speak(msg);
 }
+
+// 5. CRITICAL: Pre-load voices so they are ready when the game starts
+// Some browsers need this event listener to actually "see" the voices
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
 
 // --- Navigation & Setup ---
 function saveName() {
@@ -276,3 +303,4 @@ function endGame() {
         showHome();
     }, 500);
 }
+
