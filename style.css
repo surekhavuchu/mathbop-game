@@ -16,7 +16,7 @@ body {
     background: white;
     border: 6px solid #4b7bec;
     border-radius: 30px;
-    padding: 10px;
+    padding: 14px;
     text-align: center;
     width: 320px;
     box-shadow: 10px 10px 0px #FFD32D;
@@ -183,6 +183,10 @@ body {
     background: #fff9e6;
     padding: 12px;
     border-radius: 15px;
+}
+
+.stats-row span{
+    font-style:normal !important;
 }
 
 .problem {
@@ -354,16 +358,6 @@ input[type="number"] {
 .quarter { width: 105px; height: 105px; }
 
 /* --- Stats and Layout --- */
-.stats-row {
-    display: flex;
-    justify-content: space-around;
-    margin: 10px 0;
-    font-weight: bold;
-    color: #ffa502;
-    background: #fff9e6;
-    padding: 12px;
-    border-radius: 15px;
-}
 
 .setting-row {
     display: flex;
