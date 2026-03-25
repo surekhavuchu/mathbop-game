@@ -15,8 +15,8 @@ body {
 .card {
     background: white;
     border: 6px solid #4b7bec;
-    border-radius: 40px;
-    padding: 5px;
+    border-radius: 30px;
+    padding: 10px;
     text-align: center;
     width: 320px;
     box-shadow: 10px 10px 0px #FFD32D;
