@@ -20,12 +20,25 @@
 
         <div id="home-screen" class="card hidden">
             <h1 id="welcome-msg">Welcome, Pilot!</h1>
+            
+            <div class="mission-toggle">
+                <button id="math-mode-btn" class="mode-btn active" onclick="setMode('math')">🔢 Math</button>
+                <button id="money-mode-btn" class="mode-btn" onclick="setMode('money')">💰 Money</button>
+            </div>
+
+        <div id="money-cheat-sheet" class="cheat-sheet hidden">
+            <div class="cheat-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/US_One_Cent_Obv.png" class="mini-coin"> Penny (1¢)</div>
+            <div class="cheat-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Jefferson-Nickel-Unc-Obv.jpg/640px-Jefferson-Nickel-Unc-Obv.jpg" class="mini-coin"> Nickel (5¢)</div>
+            <div class="cheat-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/2015-W_proof_Roosevelt_dime_obverse.jpg/640px-2015-W_proof_Roosevelt_dime_obverse.jpg" class="mini-coin"> Dime (10¢)</div>
+            <div class="cheat-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/2006_Quarter_Proof.png/640px-2006_Quarter_Proof.png" class="mini-coin"> Quarter (25¢)</div>
+        </div>
+
             <div class="stats-row">
                 <span>🏆 High Score: <span id="hi-score">0</span></span>
                 <span>💰 Coins: <span id="total-coins">0</span></span>
             </div>
             
-            <div class="settings">
+            <div id="math-settings" class="settings">
                 <div class="setting-row">
                     <span>🌟 Level:</span>
                     <select id="difficulty-select">
@@ -34,18 +47,18 @@
                         <option value="hard">Hard (Double Digits!)</option>
                     </select>
                 </div>
-                <div class="setting-row">
-                    <span>⏱️ Speed:</span>
-                    <input type="range" id="speed-slider" min="5" max="40" value="15">
-                    <span id="speed-val">15 s</span>
+                <div class="operators-row">
+                    <button class="op-btn active" data-op="+">+</button>
+                    <button class="op-btn" data-op="-">-</button>
+                    <button class="op-btn" data-op="x">×</button>
+                    <button class="op-btn" data-op="/">÷</button>
                 </div>
             </div>
 
-            <div class="ops-select">
-                <button class="op-btn active" data-op="+">+</button>
-                <button class="op-btn" data-op="-">-</button>
-                <button class="op-btn" data-op="x">×</button>
-                <button class="op-btn" data-op="/">÷</button>
+            <div class="setting-row">
+                <span>⏱️ Speed:</span>
+                <input type="range" id="speed-slider" min="5" max="40" value="15">
+                <span id="speed-val">15 s</span>
             </div>
 
             <button onclick="startGame()" class="start-btn">START MISSION! 🚀</button>
@@ -53,13 +66,11 @@
 
         <div id="game-screen" class="card hidden">
             <div id="timer-container"><div id="timer-bar"></div></div>
-
             <div class="stats-bar">
                 <span>💰 <span id="session-coins">0</span></span>
-                <span>🚀 <span id="q-current">1</span>/<span id="q-total">10</span></span>
+                <span>🚀 <span id="q-current">1</span>/10</span>
                 <span>🔥 <span id="streak-count">0</span></span>
             </div>
-
             <div class="problem">
                 <span id="n1">0</span>
                 <span id="op-sign">+</span>
@@ -67,11 +78,26 @@
                 <span>=</span>
                 <input type="number" id="answer-input" pattern="\d*" inputmode="numeric">
             </div>
-            
             <div id="status-label" class="status-text">&nbsp;</div>
-            
-            <p>Score: <span id="points">0</span></p>
+            <div class="game-controls">
+                <button onclick="startGame()" class="control-btn mini">🔄 Restart</button>
+                <button onclick="goToHome()" class="control-btn mini">🏠 Home</button>
+            </div>
+        </div>
 
+        <div id="money-screen" class="card hidden">
+            <div id="m-timer-container" class="timer-container"><div id="m-timer-bar" class="timer-bar"></div></div>
+            <div class="stats-bar">
+                <span>💰 <span id="m-session-coins">0</span></span>
+                <span>🪙 <span id="m-q-current">1</span>/10</span>
+            </div>
+            <div class="mission-instruction">Count the cents and type the total!</div>
+            <div id="money-display" class="money-box"></div>
+            <div class="problem">
+                <span class="total-label">Total Cents:</span>
+                <input type="number" id="money-input" pattern="\d*" inputmode="numeric">
+            </div>
+            <div id="money-status" class="status-text">&nbsp;</div>
             <div class="game-controls">
                 <button onclick="startGame()" class="control-btn mini">🔄 Restart</button>
                 <button onclick="goToHome()" class="control-btn mini">🏠 Home</button>
@@ -82,5 +108,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
