@@ -179,7 +179,7 @@ body {
     justify-content: space-around;
     margin: 10px 0;
     font-weight: bold;
-    color: #ffa502;
+    color: maroon;
     background: #fff9e6;
     padding: 12px;
     border-radius: 15px;
@@ -210,7 +210,7 @@ input[type="number"] {
     background: #26de81;
     color: white;
     border: none;
-    padding: 18px;
+    padding: 12px;
     border-radius: 20px;
     font-size: 1rem;
     font-weight: bold;
@@ -380,6 +380,7 @@ input[type="number"] {
     gap: 15px;
     font-size: 2rem;
     margin: 15px 0;
+    font-weight:bold;
 }
 
 .total-label {
