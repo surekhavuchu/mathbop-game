@@ -16,9 +16,9 @@ body {
     background: white;
     border: 6px solid #4b7bec;
     border-radius: 40px;
-    padding: 25px;
+    padding: 5px;
     text-align: center;
-    width: 420px;
+    width: 320px;
     box-shadow: 10px 10px 0px #FFD32D;
     position: relative;
 }
