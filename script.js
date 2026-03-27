@@ -14,7 +14,7 @@ const coinsConfig = [
     { name: 'penny', value: 1, img: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/US_One_Cent_Obv.png' },
     { name: 'nickel', value: 5, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Jefferson-Nickel-Unc-Obv.jpg/640px-Jefferson-Nickel-Unc-Obv.jpg' },
     { name: 'dime', value: 10, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/2015-W_proof_Roosevelt_dime_obverse.jpg/640px-2015-W_proof_Roosevelt_dime_obverse.jpg' },
-    { name: 'quarter', value: 25, img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/2006_Quarter_Proof.png/640px-2006_Quarter_Proof.png' }
+    { name: 'quarter', value: 25, img: 'https://upload.wikimedia.org/wikipedia/commons/4/44/2014_ATB_Quarter_Obv.png' }
 ];
 
 const cheers = ["High five!", "Math superstar!", "Unstoppable!", "Wag wag!", "Look at those coins!", "Pure Genius!"];
@@ -145,7 +145,7 @@ function genMoneyProblem() {
     let totalCents = 0;
     
     // Generates 2 or 3 coins for kindergartners
-    const count = Math.floor(Math.random() * 2) + 2; 
+    const count = Math.floor(Math.random() * 2) + 1; 
     
     for (let i = 0; i < count; i++) {
         const coinData = coinsConfig[Math.floor(Math.random() * coinsConfig.length)];
